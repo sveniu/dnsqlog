@@ -1,0 +1,5 @@
+return error enum
+drop privs
+should stuff have 'const' prefixes somewhere?
+valgrind
+initial timestamp at start of state file

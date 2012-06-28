@@ -1,0 +1,19 @@
+Simple prototype for a DNS query logger. The idea is to feed a zone
+into libpcap monitor, and it will maintain the 'lastseen' timestamp
+and a hitcount for each entry in the zone.
+
+The purpose of this is to determine which zone entries are obsolete,
+so that they can be removed with confidence that they are not used.
+How long to monitor before concluding that the entry is obsolete, is
+up to the administrator.
+
+These numbers can then be exported by sending a HUP, which will save
+to a text file named 'dns.state' in the cwd of the process. This file
+can in turn be run through further processing, for example insertion
+into an sql database.
+
+Creating the initial record list:
+
+rndc dumpdb -all
+grep -E "IN[[:space:]]+(A|CNAME|AAAA|CNAME|MX|PTR)" \
+/var/lib/bind/named_dump.db > records.txt
